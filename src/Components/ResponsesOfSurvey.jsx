@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import SurveyCharts from "./SurveyCharts";
 
 const ResponsesOfSurvey = () => {
   const { surveyId } = useParams();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [responses, setResponses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [expandedUser, setExpandedUser] = useState(null);
   const authToken = sessionStorage.getItem("authToken");
+  //console.log(surveyId);
 
   useEffect(() => {
     const fetchSurveyResponses = async () => {
@@ -76,14 +78,13 @@ const ResponsesOfSurvey = () => {
     setExpandedUser(expandedUser === user ? null : user);
   };
 
-  
   const handleBackClick = () => {
     navigate("/admin/add-survey");
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto bg-white shadow-md rounded-md">
-      <h1 className="text-3xl font-bold mb-6">Survey Responses</h1>
+    <div className="p-6 w-4/5 mx-auto bg-blue-50 shadow-md rounded-md pb-10 mb-10 mt-5">
+      <h1 className="text-3xl font-bold mb-6 text-center">Survey Responses</h1>
 
       <button
         onClick={handleBackClick}
@@ -92,58 +93,63 @@ const ResponsesOfSurvey = () => {
         Back to Add Survey
       </button>
 
-      {/* Total Responses */}
       <p className="text-lg mb-4 font-semibold">
         Total Responses: {totalResponses}
       </p>
- 
+
       {Object.keys(groupedResponses).length === 0 ? (
         <p className="text-gray-500">No responses found for this survey.</p>
       ) : (
-        <div className="bg-neutral-100">
-          {Object.entries(groupedResponses).map(([user, answers], index) => (
-            <div key={index} className="mb-6 p-4 bg-white shadow rounded-lg">
-              {/* User Name with Toggle */}
-              <button
-                className="w-full text-left font-bold text-xl text-blue-600 hover:text-blue-800 focus:outline-none"
-                onClick={() => toggleUserAnswers(user)}
-              >
-                User: {user}
-                <span className="float-right">
-                  {expandedUser === user ? "-" : "+"}
-                </span>
-              </button>
+        <div className="flex flex-col md:flex-row w-full">
+          <div className="md:w-3/5 bg-blue-100 p-4">
+            {Object.entries(groupedResponses).map(([user, answers], index) => (
+              <div key={index} className="mb-6 p-4 bg-white shadow rounded-lg">
+                <button
+                  className="w-full text-left font-bold text-xl text-blue-600 hover:text-blue-800 focus:outline-none"
+                  onClick={() => toggleUserAnswers(user)}
+                >
+                  User: {user}
+                  <span className="float-right">
+                    {expandedUser === user ? "-" : "+"}
+                  </span>
+                </button>
 
-              {/* Answers for the user */}
-              {expandedUser === user && (
-                <div className="mt-4">
-                  {answers.map((answer, i) => (
-                    <div
-                      key={i}
-                      className="mb-4 p-3 border-l-4 border-blue-500 bg-gray-50 rounded"
-                    >
-                      <h3 className="font-semibold text-lg text-gray-900">
-                        Question {i + 1}:{" "}
-                        <span className="text-gray-700">{answer.question}</span>
-                      </h3>
-                      <p className="ml-4 mt-2">
-                        <strong>Answer:</strong> {answer.answer}
-                      </p>
+                {expandedUser === user && (
+                  <div className="mt-4">
+                    {answers.map((answer, i) => (
+                      <div
+                        key={i}
+                        className="mb-4 p-3 border-l-4 border-blue-500 bg-gray-50 rounded"
+                      >
+                        <h3 className="font-semibold text-lg text-gray-900">
+                          Question {i + 1}:{" "}
+                          <span className="text-gray-700">
+                            {answer.question}
+                          </span>
+                        </h3>
+                        <p className="ml-4 mt-2">
+                          <strong>Answer:</strong> {answer.answer}
+                        </p>
 
-                      {/* For checkboxes or other multiple choice questions */}
-                      {answer.type === "checkbox" &&
-                        answer.options.length > 0 && (
-                          <div className="ml-4 mt-2">
-                            <strong>Options:</strong>{" "}
-                            {answer.options.join(", ")}
-                          </div>
-                        )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+                        {answer.type === "checkbox" &&
+                          answer.options.length > 0 && (
+                            <div className="ml-4 mt-2">
+                              <strong>Options:</strong>{" "}
+                              {answer.options.join(", ")}
+                            </div>
+                          )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Survey Charts Component */}
+          <div className="md:w-4/5">
+            <SurveyCharts />
+          </div>
         </div>
       )}
     </div>
