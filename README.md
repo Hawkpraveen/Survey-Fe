@@ -1,8 +1,11 @@
-# React + Vite
+# Suvey Site
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Authenticated users can take survey availabel in the website.
 
-Currently, two official plugins are available:
+### List of taken survey for the user's is displayed
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Admin have CRUD rights for the survey
+### Admin can view the list of survey created by particular admin 
+### Admin have full CRUD operation access over the surveys.
+
+
