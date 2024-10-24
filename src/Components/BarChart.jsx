@@ -1,55 +1,40 @@
 import React from "react";
-import { Bar } from "react-chartjs-2";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
   Tooltip,
   Legend,
-} from "chart.js";
+  ResponsiveContainer,
+} from "recharts";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
-const BarChart = ({ ratings, question }) => {
+const BarChartComponent = ({ ratings, question }) => {
   const ratingValues = Object.values(ratings);
   const ratingLabels = Object.keys(ratings);
 
-  const data = {
-    labels: ratingLabels.map((label) => `Rating ${label}`),
-    datasets: [
-      {
-        label: `Ratings for "${question}"`,
-        data: ratingValues,
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-        borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
-      },
-    ],
-  };
-
-  const options = {
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-  };
+  // Prepare data in the format Recharts requires
+  const barData = ratingLabels.map((label, index) => ({
+    name: `Rating ${label}`,
+    value: ratingValues[index],
+  }));
 
   return (
-    <div>
-      <h3>{question}</h3>
-      <Bar data={data} options={options} />
+    <div className="text-center">
+      <h3 className="text-lg font-semibold mb-2">{question}</h3>
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={barData}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis allowDecimals={false} /> {/* Ensure Y-axis only has whole numbers */}
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="value" fill="rgba(75, 192, 192, 0.6)" />
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   );
 };
 
-export default BarChart;
+export default BarChartComponent;

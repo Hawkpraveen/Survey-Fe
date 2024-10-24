@@ -1,10 +1,7 @@
 import React from "react";
-import { Pie } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
-
-const PieChart = ({ ratings, question }) => {
+const PieChartComponent = ({ ratings, question }) => {
   const ratingValues = Object.values(ratings);
   const ratingLabels = Object.keys(ratings);
 
@@ -35,31 +32,40 @@ const PieChart = ({ ratings, question }) => {
     }
   };
 
-  // Generate labels and colors dynamically
-  const labels = ratingLabels.map((label) => `Rating ${label}`);
   const totalRatings = ratingLabels.length; // Total number of ratings
-  const backgroundColors = ratingLabels.map((label) =>
-    getColor(parseInt(label), totalRatings)
-  );
 
-  const data = {
-    labels: labels,
-    datasets: [
-      {
-        label: `Ratings for "${question}"`,
-        data: ratingValues,
-        backgroundColor: backgroundColors,
-        hoverBackgroundColor: backgroundColors,
-      },
-    ],
-  };
+  // Prepare the data for Recharts Pie component
+  const pieData = ratingLabels.map((label, index) => ({
+    name: `Rating ${label}`,
+    value: ratingValues[index],
+    color: getColor(parseInt(label), totalRatings),
+  }));
 
   return (
-    <div>
-      <h3>{question}</h3>
-      <Pie data={data} />
+    <div className="text-center w-full h-96">
+      <h3 className="text-lg font-semibold mb-2">{question}</h3>
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart>
+          <Pie
+            data={pieData}
+            dataKey="value"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            outerRadius="80%"
+            fill="#8884d8"
+            label
+          >
+            {pieData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.color} />
+            ))}
+          </Pie>
+          <Tooltip />
+          <Legend />
+        </PieChart>
+      </ResponsiveContainer>
     </div>
   );
 };
 
-export default PieChart;
+export default PieChartComponent;
