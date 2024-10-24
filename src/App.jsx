@@ -16,6 +16,7 @@ import CustomerSatisfactionSurvey from "./Components/CustomerSatisfactionSurvey"
 import EditSurvey from "./Components/EditSurvey";
 import UserTakenSurvey from "./Components/UserTakenSurvey";
 import ResponsesOfSurvey from "./Components/ResponsesOfSurvey";
+import Feedback from "./Components/Feedback";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/survey/:surveyId" element={<SurveyDetail />} />
           <Route path="/taken-surveys" element={<UserTakenSurvey />} />
+          <Route path='/feedback' element = {<Feedback />} />
 
           <Route path="/admin" element={<AdminRoute />}>
             <Route path="add-survey" element={<AddSurvey />} />

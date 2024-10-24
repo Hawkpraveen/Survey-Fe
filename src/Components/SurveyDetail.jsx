@@ -101,6 +101,66 @@ const SurveyDetail = () => {
     }
   };
 
+  const ratingLabels = {
+    5: [
+      "1 - Very Dissatisfied",
+      "2 - Dissatisfied",
+      "3 - Neutral",
+      "4 - Satisfied",
+      "5 - Very Satisfied",
+    ],
+    6: [
+      "1 - Very Dissatisfied",
+      "2 - Dissatisfied",
+      "3 - Neutral",
+      "4 - Satisfied",
+      "5 - Very Satisfied",
+      "6 - Extremely Satisfied",
+    ],
+    7: [
+      "1 - Very Dissatisfied",
+      "2 - Dissatisfied",
+      "3 - Somewhat Dissatisfied",
+      "4 - Neutral",
+      "5 - Somewhat Satisfied",
+      "6 - Satisfied",
+      "7 - Very Satisfied",
+    ],
+    8: [
+      "1 - Very Dissatisfied",
+      "2 - Dissatisfied",
+      "3 - Somewhat Dissatisfied",
+      "4 - Neutral",
+      "5 - Somewhat Satisfied",
+      "6 - Satisfied",
+      "7 - Very Satisfied",
+      "8 - Extremely Satisfied",
+    ],
+    9: [
+      "1 - Very Dissatisfied",
+      "2 - Dissatisfied",
+      "3 - Somewhat Dissatisfied",
+      "4 - Neutral",
+      "5 - Slightly Satisfied",
+      "6 - Somewhat Satisfied",
+      "7 - Satisfied",
+      "8 - Very Satisfied",
+      "9 - Extremely Satisfied",
+    ],
+    10: [
+      "1 - Very Dissatisfied",
+      "2 - Dissatisfied",
+      "3 - Somewhat Dissatisfied",
+      "4 - Slightly Dissatisfied",
+      "5 - Neutral",
+      "6 - Slightly Satisfied",
+      "7 - Somewhat Satisfied",
+      "8 - Satisfied",
+      "9 - Very Satisfied",
+      "10 - Extremely Satisfied",
+    ],
+  };
+
   return (
     <div className="p-6 max-w-4xl mx-auto bg-neutral-100 shadow-lg rounded-lg mt-5 mb-5">
       {error && <div className="text-red-500 mb-4">{error}</div>}
@@ -110,7 +170,9 @@ const SurveyDetail = () => {
           <h1 className="text-2xl font-bold mb-4 text-center">
             Survey Name : {survey.title}
           </h1>
-          <p className="mb-6 text-md text-gray-500">Survey Description : {survey.description}</p>
+          <p className="mb-6 text-md text-gray-500">
+            Survey Description : {survey.description}
+          </p>
 
           {survey.questions.map((q, index) => (
             <div key={index} className="mb-6">
@@ -129,7 +191,6 @@ const SurveyDetail = () => {
                 />
               )}
 
-              {/* Long Text Input */}
               {q.type === "long_text" && (
                 <textarea
                   className="w-full p-2 border rounded-md"
@@ -140,7 +201,6 @@ const SurveyDetail = () => {
                 />
               )}
 
-              {/* Multiple Choice (Checkboxes for Multiple Selection) */}
               {q.type === "multiple_choice" && (
                 <ul className="space-y-2">
                   {q.options.map((option, i) => (
@@ -159,7 +219,6 @@ const SurveyDetail = () => {
                 </ul>
               )}
 
-              {/* Checkboxes (Radio Buttons for Single Selection) */}
               {q.type === "checkbox" && (
                 <ul className="space-y-2">
                   {q.options.map((option, i) => (
@@ -180,7 +239,6 @@ const SurveyDetail = () => {
                 </ul>
               )}
 
-              {/* Dropdown (Single Selection) */}
               {q.type === "dropdown" && (
                 <select
                   className="w-full p-2 border rounded-md"
@@ -197,22 +255,11 @@ const SurveyDetail = () => {
                 </select>
               )}
 
-              {/* Rating (1 to 5 Stars or Number) */}
               {q.type === "rating" && (
-                <div className="flex flex-wrap  items-center space-x-4">
-                  {/* <label className="block">Rating:</label> */}
-                  <div className="flex flex-col md:flex-wrap md:flex-row space-x-2">
-                    {[
-                      "Not satisfied",
-                      "Slightly satisfied",
-                      "Satisfied",
-                      "Very satisfied",
-                      "Extremely satisfied",
-                    ].map((label, ratingIndex) => (
-                      <label
-                        key={ratingIndex}
-                        className="flex items-center space-x-2"
-                      >
+                <div className="flex flex-wrap items-center space-x-4">
+                  <div className="flex flex-col md:flex-wrap md:flex-row gap-2">
+                    {ratingLabels[q.maxRating]?.map((label, ratingIndex) => (
+                      <label key={ratingIndex} className="flex items-center space-x-2">
                         <input
                           type="radio"
                           name={`rating-${index}`}
@@ -221,14 +268,13 @@ const SurveyDetail = () => {
                             setAnswers({ ...answers, [index]: ratingIndex + 1 })
                           }
                         />
-                        <span>{`${ratingIndex + 1} - ${label}`}</span>
+                        <span>{label}</span>
                       </label>
                     ))}
                   </div>
                 </div>
               )}
 
-              {/* Time Picker */}
               {q.type === "time" && (
                 <input
                   type="time"
@@ -239,7 +285,7 @@ const SurveyDetail = () => {
                 />
               )}
 
-              <hr className="my-4  border-black" />
+              <hr className="my-4 border-black" />
             </div>
           ))}
 

@@ -52,6 +52,12 @@ const Navbar = () => {
                 >
                   Taken Surveys
                 </button>
+                <button
+                  className="text-white hover:text-gray-300"
+                  onClick={() => navigate("/feedback")}
+                >
+                  Survey Feedback
+                </button>
                 <button className="text-white " onClick={handleLogout}>
                   Logout
                 </button>

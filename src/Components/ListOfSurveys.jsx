@@ -40,7 +40,7 @@ const ListOfSurveys = () => {
   };
 
   return (
-    <div className="p-6 pb-10 mb-10">
+    <div className="p-6 pb-2 mb-10">
       <h1 className="text-2xl font-bold mb-4 text-center pb-4">
         Available Surveys
       </h1>
@@ -50,11 +50,11 @@ const ListOfSurveys = () => {
       {surveys.length === 0 ? (
         <div className="text-gray-500 text-center">No surveys available.</div>
       ) : (
-        <div className=" items-center flex flex-col md:flex-row justify-between  space-y-6 md:space-y-0 ">
+        <div className=" items-center flex flex-col flex-wrap md:flex-row justify-evenly">
           {surveys.map((survey) => (
             <div
               key={survey._id}
-              className="p-4 text-center border rounded-lg shadow-lg flex flex-col justify-center items-center bg-blue-100 hover:shadow-xl cursor-pointer w-56 h-52 text-ellipsis mx-auto"
+              className="p-4 text-center border rounded-lg shadow-lg flex flex-col justify-center items-center bg-blue-100 hover:shadow-xl cursor-pointer w-64 h-56 text-ellipsis mx-auto my-2"
               onClick={() => handleSurveyClick(survey._id)}
             >
               <h2 className="text-lg font-semibold mb-2">{survey.title}</h2>
