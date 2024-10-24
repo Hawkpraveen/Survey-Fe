@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom";
 
 const SurveyCharts = () => {
   const [ratingData, setRatingData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { surveyId } = useParams();
   const authToken = sessionStorage.getItem("authToken");
 
@@ -23,24 +25,35 @@ const SurveyCharts = () => {
         setRatingData(response.data);
       } catch (error) {
         console.error("Error fetching rating data:", error);
+        setError("Failed to load rating data.");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchRatingData();
   }, [surveyId]);
 
+  if (loading) {
+    return <p className="text-gray-500">Loading...</p>;
+  }
+
+  if (error) {
+    return <p className="text-red-500">{error}</p>;
+  }
+
   return (
-    <div className="w-full  mt-10 md:mt-0 md:ml-6 pb-10">
+    <div className="w-full mt-10 md:mt-0 md:ml-6 pb-10">
       <h2 className="text-xl font-bold mb-4 text-center">
         Survey Rating Charts
       </h2>
       {ratingData.length > 0 ? (
         ratingData.map((ratingQuestion, index) => (
-          <div key={index} className="mb-8 ">
+          <div key={index} className="mb-8">
             <h3 className="text-lg font-semibold mb-4 text-left text-ellipsis">
-              Question : {ratingQuestion.question}
+              Question: {ratingQuestion.question}
             </h3>
-            <div className="flex flex-col  gap-2">
+            <div className="flex flex-col gap-2">
               <div className="w-full sm:w-1/2 mx-auto">
                 <PieChart
                   ratings={ratingQuestion.ratings}
@@ -48,7 +61,7 @@ const SurveyCharts = () => {
                 />
               </div>
               <hr className="border-2 border-blue-200 max-w-lg mx-auto" />
-              <div className="w-full sm:w-1/2  mx-auto h-full">
+              <div className="w-full sm:w-1/2 mx-auto h-full">
                 <BarChart
                   ratings={ratingQuestion.ratings}
                   question={ratingQuestion.question}

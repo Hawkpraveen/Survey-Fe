@@ -1,8 +1,23 @@
-import React from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import React from "react";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const BarChart = ({ ratings, question }) => {
   const ratingValues = Object.values(ratings);
@@ -14,8 +29,8 @@ const BarChart = ({ ratings, question }) => {
       {
         label: `Ratings for "${question}"`,
         data: ratingValues,
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: "rgba(75, 192, 192, 0.6)",
+        borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
       },
     ],
